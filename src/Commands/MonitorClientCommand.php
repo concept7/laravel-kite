@@ -2,13 +2,7 @@
 
 namespace Concept7\MonitorClient\Commands;
 
-use Concept7\MonitorClient\Actions\GetLaravelVersionAction;
-use Concept7\MonitorClient\Actions\GetLivewireVersionAction;
-use Concept7\MonitorClient\Actions\GetPhpVersionAction;
 use Concept7\MonitorClient\Actions\GetProjectInformationAction;
-use Concept7\MonitorClient\Actions\GetStatamicVersionAction;
-use Concept7\MonitorClient\Actions\GetTailwindVersion;
-use Concept7\MonitorClient\Actions\GetViteVersionAction;
 use Illuminate\Console\Command;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Http;
@@ -23,14 +17,7 @@ class MonitorClientCommand extends Command
     {
         $meta = app(Pipeline::class)
             ->send(collect([]))
-            ->through([
-                GetPhpVersionAction::class,
-                GetLaravelVersionAction::class,
-                GetStatamicVersionAction::class,
-                GetLivewireVersionAction::class,
-                GetTailwindVersion::class,
-                GetViteVersionAction::class,
-            ])
+            ->through(config('monitor-client.actions', []))
             ->thenReturn();
 
         $projectInfo = app(GetProjectInformationAction::class)->handle();
@@ -39,7 +26,7 @@ class MonitorClientCommand extends Command
             'verify' => false,
         ])
             ->accept('application/json')
-            ->post(config('monitor-client.uri').'/api/project/'.config('monitor-client.project_id').'/'.config('monitor-client.project_key'), [
+            ->post(config('monitor-client.monitor_uri').'/api/project/'.config('monitor-client.project_id').'/'.config('monitor-client.project_key'), [
                 'meta' => $meta->toArray(),
                 'project_info' => $projectInfo,
             ]);
