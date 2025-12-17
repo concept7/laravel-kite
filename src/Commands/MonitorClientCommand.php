@@ -9,12 +9,18 @@ use Illuminate\Support\Facades\Http;
 
 class MonitorClientCommand extends Command
 {
-    public $signature = 'monitor-client';
+    public $signature = 'monitor-client:sync';
 
-    public $description = 'My command';
+    public $description = 'Sync monitor data.';
 
     public function handle(): int
     {
+        if (blank(config('monitor-client.project_key')) || blank(config('monitor-client.project_id'))) {
+            $this->error('Project credentials are missing!');
+
+            return self::FAILURE;
+        }
+
         $meta = app(Pipeline::class)
             ->send(collect([]))
             ->through(config('monitor-client.actions', []))
@@ -26,7 +32,8 @@ class MonitorClientCommand extends Command
             'verify' => false,
         ])
             ->accept('application/json')
-            ->post(config('monitor-client.monitor_uri').'/api/project/'.config('monitor-client.project_id').'/'.config('monitor-client.project_key'), [
+            ->withToken(config('monitor-client.project_key'))
+            ->post(config('monitor-client.monitor_uri').'/api/project/'.config('monitor-client.project_id'), [
                 'meta' => $meta->toArray(),
                 'project_info' => $projectInfo,
             ]);
