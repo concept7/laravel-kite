@@ -17,17 +17,23 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
+Add this Composer repository to your project's composer.json file.
+
+```json
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packagist.concept7.nl"
+    }
+  ]
+}
+```
+
 You can install the package via composer:
 
 ```bash
 composer require concept7/monitor-client
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="monitor-client-migrations"
-php artisan migrate
 ```
 
 You can publish the config file with:
@@ -40,20 +46,27 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'monitor_uri' => env('MONITOR_URI'),
+
+    'project_id' => env('MONITOR_CLIENT_PROJECT_ID'),
+    'project_key' => env('MONITOR_CLIENT_PROJECT_KEY'),
+
+    'actions' => [
+        \Concept7\MonitorClient\Actions\GetPhpVersionAction::class,
+        \Concept7\MonitorClient\Actions\GetLaravelVersionAction::class,
+        \Concept7\MonitorClient\Actions\GetStatamicVersionAction::class,
+        \Concept7\MonitorClient\Actions\GetLivewireVersionAction::class,
+        \Concept7\MonitorClient\Actions\GetFilamentVersionAction::class,
+        \Concept7\MonitorClient\Actions\GetTailwindVersion::class,
+        \Concept7\MonitorClient\Actions\GetViteVersionAction::class,
+    ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="monitor-client-views"
 ```
 
 ## Usage
 
-```php
-$monitorClient = new Concept7\MonitorClient();
-echo $monitorClient->echoPhrase('Hello, Concept7!');
+```bash
+php artisan monitor:report
 ```
 
 ## Testing

@@ -7,11 +7,11 @@ use Illuminate\Console\Command;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Http;
 
-class MonitorClientCommand extends Command
+class MonitorReportCommand extends Command
 {
-    public $signature = 'monitor-client:sync';
+    public $signature = 'monitor:report';
 
-    public $description = 'Sync monitor data.';
+    public $description = 'Report project data to monitor.';
 
     public function handle(): int
     {
