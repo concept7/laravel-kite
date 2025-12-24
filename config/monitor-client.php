@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'monitor_uri' => env('MONITOR_URI', 'https://monitor.test'),
+    'monitor_uri' => env('MONITOR_URI'),
 
     'project_id' => env('MONITOR_CLIENT_PROJECT_ID'),
     'project_key' => env('MONITOR_CLIENT_PROJECT_KEY'),
