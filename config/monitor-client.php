@@ -11,6 +11,7 @@ return [
         \Concept7\MonitorClient\Actions\GetLaravelVersionAction::class,
         \Concept7\MonitorClient\Actions\GetStatamicVersionAction::class,
         \Concept7\MonitorClient\Actions\GetLivewireVersionAction::class,
+        \Concept7\MonitorClient\Actions\GetFilamentVersionAction::class,
         \Concept7\MonitorClient\Actions\GetTailwindVersion::class,
         \Concept7\MonitorClient\Actions\GetViteVersionAction::class,
     ],

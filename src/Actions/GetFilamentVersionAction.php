@@ -1,0 +1,26 @@
+<?php
+
+namespace Concept7\MonitorClient\Actions;
+
+use Closure;
+use Composer\InstalledVersions;
+use Illuminate\Support\Collection;
+use OutOfBoundsException;
+
+class GetFilamentVersionAction
+{
+    public function handle(Collection $data, Closure $next)
+    {
+        try {
+            $version = InstalledVersions::getVersion('filament/filament');
+
+            $data->push([
+                'key' => 'filament_version',
+                'value' => $version,
+            ]);
+        } catch (OutOfBoundsException $e) {
+        }
+
+        return $next($data);
+    }
+}
