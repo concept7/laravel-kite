@@ -66,7 +66,7 @@ return [
 ## Usage
 
 ```bash
-php artisan monitor:report
+php artisan kite:sync
 ```
 
 ## Testing

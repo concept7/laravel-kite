@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'monitor_uri' => env('MONITOR_URI'),
+    'uri' => env('KITE_URI'),
 
-    'project_id' => env('MONITOR_CLIENT_PROJECT_ID'),
-    'project_key' => env('MONITOR_CLIENT_PROJECT_KEY'),
+    'project_id' => env('KITE_PROJECT_ID'),
+    'project_key' => env('KITE_PROJECT_KEY'),
 
     'actions' => [
         \Concept7\LaravelKite\Actions\GetPhpVersionAction::class,
