@@ -1,8 +1,8 @@
 <?php
 
-namespace Concept7\MonitorClient;
+namespace Concept7\LaravelKite;
 
-use Concept7\MonitorClient\Commands\MonitorReportCommand;
+use Concept7\LaravelKite\Commands\MonitorReportCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;

@@ -1,12 +1,12 @@
 {
-    "name": "concept7/monitor-client",
-    "description": "This is my package monitor-client",
+    "name": "concept7/laravel-kite",
+    "description": "This is my package monitor",
     "keywords": [
         "Concept7",
         "laravel",
-        "monitor-client"
+        "kite"
     ],
-    "homepage": "https://github.com/concept7/monitor-client",
+    "homepage": "https://github.com/concept7/laravel-kite",
     "license": "MIT",
     "authors": [
         {
@@ -34,13 +34,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Concept7\\MonitorClient\\": "src/",
-            "Concept7\\MonitorClient\\Database\\Factories\\": "database/factories/"
+            "Concept7\\LaravelKite\\": "src/",
+            "Concept7\\LaravelKite\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Concept7\\MonitorClient\\Tests\\": "tests/",
+            "Concept7\\LaravelKite\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -62,10 +62,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Concept7\\MonitorClient\\MonitorClientServiceProvider"
+                "Concept7\\LaravelKite\\LaravelKiteServiceProvider"
             ],
             "aliases": {
-                "MonitorClient": "Concept7\\MonitorClient\\Facades\\MonitorClient"
+                "MonitorClient": "Concept7\\LaravelKite\\Facades\\LaravelKite"
             }
         }
     },

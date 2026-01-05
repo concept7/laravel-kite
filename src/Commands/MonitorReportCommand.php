@@ -1,8 +1,8 @@
 <?php
 
-namespace Concept7\MonitorClient\Commands;
+namespace Concept7\LaravelKite\Commands;
 
-use Concept7\MonitorClient\Actions\GetProjectInformationAction;
+use Concept7\LaravelKite\Actions\GetProjectInformationAction;
 use Illuminate\Console\Command;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Http;

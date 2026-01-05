@@ -7,12 +7,12 @@ return [
     'project_key' => env('MONITOR_CLIENT_PROJECT_KEY'),
 
     'actions' => [
-        \Concept7\MonitorClient\Actions\GetPhpVersionAction::class,
-        \Concept7\MonitorClient\Actions\GetLaravelVersionAction::class,
-        \Concept7\MonitorClient\Actions\GetStatamicVersionAction::class,
-        \Concept7\MonitorClient\Actions\GetLivewireVersionAction::class,
-        \Concept7\MonitorClient\Actions\GetFilamentVersionAction::class,
-        \Concept7\MonitorClient\Actions\GetTailwindVersion::class,
-        \Concept7\MonitorClient\Actions\GetViteVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetPhpVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetTailwindVersion::class,
+        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
     ],
 ];
