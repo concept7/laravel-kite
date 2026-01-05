@@ -2,12 +2,12 @@
 
 namespace Concept7\LaravelKite;
 
-use Concept7\LaravelKite\Commands\ReportCommand;
+use Concept7\LaravelKite\Commands\LaravelKiteReportCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class MonitorClientServiceProvider extends PackageServiceProvider
+class LaravelKiteServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -17,15 +17,15 @@ class MonitorClientServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('monitor-client')
+            ->name('laravel-kite')
             ->hasConfigFile()
-            ->hasCommand(ReportCommand::class);
+            ->hasCommand(LaravelKiteReportCommand::class);
     }
 
     public function packageBooted()
     {
         $schedule = $this->app->make(Schedule::class);
 
-        $schedule->command(ReportCommand::class)->weekly();
+        $schedule->command(LaravelKiteReportCommand::class)->weekly();
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Http;
 
-class ReportCommand extends Command
+class LaravelKiteReportCommand extends Command
 {
     public $signature = 'kite:report';
 

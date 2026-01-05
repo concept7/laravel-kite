@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * @see \Concept7\LaravelKite\LaravelKite
  */
-class MonitorClient extends Facade
+class LaravelKite extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

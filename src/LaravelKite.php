@@ -2,4 +2,4 @@
 
 namespace Concept7\LaravelKite;
 
-class MonitorClient {}
+class LaravelKite {}
