@@ -1,6 +1,6 @@
 <?php
 
-namespace Concept7\MonitorClient\Actions;
+namespace Concept7\LaravelKite\Actions;
 
 use Illuminate\Support\Facades\Process;
 

@@ -1,21 +1,21 @@
 <?php
 
-namespace Concept7\MonitorClient\Commands;
+namespace Concept7\LaravelKite\Commands;
 
-use Concept7\MonitorClient\Actions\GetProjectInformationAction;
+use Concept7\LaravelKite\Actions\GetProjectInformationAction;
 use Illuminate\Console\Command;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Http;
 
-class MonitorClientCommand extends Command
+class LaravelKiteReportCommand extends Command
 {
-    public $signature = 'monitor-client:sync';
+    public $signature = 'kite:report';
 
-    public $description = 'Sync monitor data.';
+    public $description = 'Report project data to Kite.';
 
     public function handle(): int
     {
-        if (blank(config('monitor-client.project_key')) || blank(config('monitor-client.project_id'))) {
+        if (blank(config('kite.project_key')) || blank(config('kite.project_id'))) {
             $this->error('Project credentials are missing!');
 
             return self::FAILURE;
@@ -23,7 +23,7 @@ class MonitorClientCommand extends Command
 
         $meta = app(Pipeline::class)
             ->send(collect([]))
-            ->through(config('monitor-client.actions', []))
+            ->through(config('kite.actions', []))
             ->thenReturn();
 
         $projectInfo = app(GetProjectInformationAction::class)->handle();
@@ -32,8 +32,8 @@ class MonitorClientCommand extends Command
             'verify' => false,
         ])
             ->accept('application/json')
-            ->withToken(config('monitor-client.project_key'))
-            ->post(config('monitor-client.monitor_uri').'/api/project/'.config('monitor-client.project_id'), [
+            ->withToken(config('kite.project_key'))
+            ->post(config('kite.uri').'/api/project/'.config('kite.project_id'), [
                 'meta' => $meta->toArray(),
                 'project_info' => $projectInfo,
             ]);

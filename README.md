@@ -1,15 +1,15 @@
-# This is my package monitor-client
+# This is my package laravel-kite
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/concept7/monitor-client.svg?style=flat-square)](https://packagist.org/packages/concept7/monitor-client)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/concept7/monitor-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/concept7/monitor-client/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/concept7/monitor-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/concept7/monitor-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/concept7/monitor-client.svg?style=flat-square)](https://packagist.org/packages/concept7/monitor-client)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/concept7/laravel-kite.svg?style=flat-square)](https://packagist.org/packages/concept7/laravel-kite)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/concept7/laravel-kite/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/concept7/laravel-kite/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/concept7/laravel-kite/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/concept7/laravel-kite/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/concept7/laravel-kite.svg?style=flat-square)](https://packagist.org/packages/concept7/laravel-kite)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/monitor-client.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/monitor-client)
+[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-kite.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-kite)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
@@ -17,43 +17,56 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Installation
 
+Add this Composer repository to your project's composer.json file.
+
+```json
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packagist.concept7.nl"
+    }
+  ]
+}
+```
+
 You can install the package via composer:
 
 ```bash
-composer require concept7/monitor-client
+composer require concept7/laravel-kite
 ```
 
-You can publish and run the migrations with:
+Optionally you can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="monitor-client-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-
-```bash
-php artisan vendor:publish --tag="monitor-client-config"
+php artisan vendor:publish --tag="laravel-kite-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'monitor_uri' => env('MONITOR_URI'),
+
+    'project_id' => env('KITE_PROJECT_ID'),
+    'project_key' => env('KITE_PROJECT_KEY'),
+
+    'actions' => [
+        \Concept7\LaravelKite\Actions\GetPhpVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetTailwindVersion::class,
+        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
+    ],
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="monitor-client-views"
 ```
 
 ## Usage
 
-```php
-$monitorClient = new Concept7\MonitorClient();
-echo $monitorClient->echoPhrase('Hello, Concept7!');
+```bash
+php artisan kite:sync
 ```
 
 ## Testing
