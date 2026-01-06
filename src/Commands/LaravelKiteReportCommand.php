@@ -18,6 +18,10 @@ class LaravelKiteReportCommand extends Command
         if (blank(config('kite.project_key')) || blank(config('kite.project_id'))) {
             $this->error('Project credentials are missing!');
 
+            if ($this->option('silent')) {
+                return self::SUCCESS;
+            }
+
             return self::FAILURE;
         }
 
