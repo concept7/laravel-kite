@@ -25,7 +25,12 @@ class GetProjectInformationAction
     public function getComposerPackageDetail()
     {
         $result = Process::run(config('kite.php_path').' vendor/bin/composer show -D --format=json --no-dev');
+        $data = json_decode($result->output());
 
-        return json_decode($result->output())->installed;
+        if (blank($data)) {
+            return [];
+        }
+
+        return $data->installed;
     }
 }
