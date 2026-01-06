@@ -9,7 +9,7 @@ class GetViteVersionAction
 {
     public function handle(Collection $data, Closure $next)
     {
-        $packageJsonData = file_get_contents('package-lock.json');
+        $packageJsonData = file_get_contents(base_path('package-lock.json'));
         $json = json_decode($packageJsonData, true);
 
         $version = data_get($json, 'packages.node_modules/vite.version');

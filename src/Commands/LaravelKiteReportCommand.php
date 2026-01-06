@@ -43,6 +43,12 @@ class LaravelKiteReportCommand extends Command
             ]);
 
         if (! $response->ok()) {
+            $this->error($response->body());
+
+            if ($this->option('quiet')) {
+                return self::SUCCESS;
+            }
+
             return self::FAILURE;
         }
 
