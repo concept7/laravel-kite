@@ -14,6 +14,10 @@ class GetFilamentVersionAction
         try {
             $version = InstalledVersions::getVersion('filament/filament');
 
+            if (blank($version)) {
+                $version = InstalledVersions::getVersion('filament/support');
+            }
+
             $data->push([
                 'key' => 'filament_version',
                 'value' => $version,
