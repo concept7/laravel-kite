@@ -26,6 +26,6 @@ class LaravelKiteServiceProvider extends PackageServiceProvider
     {
         $schedule = $this->app->make(Schedule::class);
 
-        $schedule->command(LaravelKiteReportCommand::class)->weekly();
+        $schedule->command(LaravelKiteReportCommand::class)->daily();
     }
 }
