@@ -10,6 +10,7 @@ return [
 
     'actions' => [
         \Concept7\LaravelKite\Actions\GetPhpVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetMysqlVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
         \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
