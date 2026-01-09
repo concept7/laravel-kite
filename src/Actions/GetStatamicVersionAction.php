@@ -14,10 +14,12 @@ class GetStatamicVersionAction
         try {
             $version = InstalledVersions::getVersion('statamic/cms');
 
-            $data->push([
-                'key' => 'statamic_version',
-                'value' => $version,
-            ]);
+            if (filled($version)) {
+                $data->push([
+                    'key' => 'statamic_version',
+                    'value' => $version,
+                ]);
+            }
         } catch (OutOfBoundsException $e) {
         }
 

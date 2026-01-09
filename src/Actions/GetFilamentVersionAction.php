@@ -18,10 +18,12 @@ class GetFilamentVersionAction
                 $version = InstalledVersions::getVersion('filament/support');
             }
 
-            $data->push([
-                'key' => 'filament_version',
-                'value' => $version,
-            ]);
+            if (filled($version)) {
+                $data->push([
+                    'key' => 'filament_version',
+                    'value' => $version,
+                ]);
+            }
         } catch (OutOfBoundsException $e) {
         }
 
