@@ -14,12 +14,10 @@ class GetViteVersionAction
 
         $version = data_get($json, 'packages.node_modules/vite.version');
 
-        if (filled($version)) {
-            $data->push([
-                'key' => 'vite_version',
-                'value' => $version,
-            ]);
-        }
+        $data->push([
+            'key' => 'vite_version',
+            'value' => $version,
+        ]);
 
         return $next($data);
     }

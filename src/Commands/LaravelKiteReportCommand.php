@@ -38,7 +38,7 @@ class LaravelKiteReportCommand extends Command
             ->accept('application/json')
             ->withToken(config('kite.project_key'))
             ->post(config('kite.uri').'/api/project/'.config('kite.project_id'), [
-                'meta' => $meta->toArray(),
+                'meta' => $meta->filter(fn (array $record) => filled($record['value']))->toArray(),
                 'project_info' => $projectInfo,
             ]);
 
