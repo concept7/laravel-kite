@@ -28,12 +28,10 @@ class GetMysqlVersionAction
 
         $database = $database.$version[0];
 
-        if (filled($database)) {
-            $data->push([
-                'key' => 'database_version',
-                'value' => $database,
-            ]);
-        }
+        $data->push([
+            'key' => 'database_version',
+            'value' => $database,
+        ]);
 
         return $next($data);
     }

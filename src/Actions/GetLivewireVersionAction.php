@@ -14,12 +14,10 @@ class GetLivewireVersionAction
         try {
             $version = InstalledVersions::getVersion('livewire/livewire');
 
-            if (filled($version)) {
-                $data->push([
-                    'key' => 'livewire_version',
-                    'value' => $version,
-                ]);
-            }
+            $data->push([
+                'key' => 'livewire_version',
+                'value' => $version,
+            ]);
         } catch (OutOfBoundsException $e) {
         }
 

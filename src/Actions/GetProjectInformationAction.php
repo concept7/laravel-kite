@@ -18,7 +18,7 @@ class GetProjectInformationAction
             'is_maintenance_mode_on' => $app->isDownForMaintenance(),
             'php_version' => phpversion(),
             'url' => config('app.url'),
-            'composer_packages' => $this->getComposerPackageDetail(),
+            'packages' => $this->getComposerPackageDetail(),
         ];
     }
 

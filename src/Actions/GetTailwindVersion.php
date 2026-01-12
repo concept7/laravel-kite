@@ -14,12 +14,10 @@ class GetTailwindVersion
 
         $version = data_get($json, 'packages.node_modules/tailwindcss.version');
 
-        if (filled($version)) {
-            $data->push([
-                'key' => 'tailwind_version',
-                'value' => $version,
-            ]);
-        }
+        $data->push([
+            'key' => 'tailwind_version',
+            'value' => $version,
+        ]);
 
         return $next($data);
     }
