@@ -6,7 +6,7 @@
         "laravel",
         "laravel-kite"
     ],
-    "homepage": "https://github.com/concept7/laravel-kite",
+    "homepage": "https://gitlab.concept7.nl/workflow/laravel-kite",
     "license": "MIT",
     "authors": [
         {
