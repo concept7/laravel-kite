@@ -2,10 +2,10 @@
 
 namespace Concept7\LaravelKite\Commands;
 
-use Concept7\LaravelKite\Actions\GetProjectInformationAction;
+use Concept7\Kite\KiteConfig;
+use Concept7\Kite\KiteReporter;
+use Concept7\LaravelKite\ProjectInfo\LaravelProjectInfoCollector;
 use Illuminate\Console\Command;
-use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Facades\Http;
 
 class LaravelKiteReportCommand extends Command
 {
@@ -15,7 +15,15 @@ class LaravelKiteReportCommand extends Command
 
     public function handle(): int
     {
-        if (blank(config('kite.project_key')) || blank(config('kite.project_id'))) {
+        $config = new KiteConfig(
+            uri: config('kite.uri', ''),
+            projectId: config('kite.project_id', ''),
+            projectKey: config('kite.project_key', ''),
+            projectRoot: base_path(),
+            phpPath: config('kite.php_path', 'php'),
+        );
+
+        if (! $config->isValid()) {
             $this->error('Project credentials are missing!');
 
             if ($this->option('quiet')) {
@@ -25,25 +33,15 @@ class LaravelKiteReportCommand extends Command
             return self::FAILURE;
         }
 
-        $meta = app(Pipeline::class)
-            ->send(collect([]))
-            ->through(config('kite.actions', []))
-            ->thenReturn();
+        $collector = new LaravelProjectInfoCollector(config('kite.php_path', 'php'));
+        $reporter = new KiteReporter($config, $collector);
+        $actions = array_map(fn ($action) => new $action, config('kite.actions', []));
+        $reporter->addActions($actions);
 
-        $projectInfo = app(GetProjectInformationAction::class)->handle();
+        $result = $reporter->report();
 
-        $response = Http::withOptions([
-            'verify' => false,
-        ])
-            ->accept('application/json')
-            ->withToken(config('kite.project_key'))
-            ->post(config('kite.uri').'/api/project/'.config('kite.project_id'), [
-                'meta' => $meta->filter(fn (array $record) => filled($record['value']))->toArray(),
-                'project_info' => $projectInfo,
-            ]);
-
-        if (! $response->ok()) {
-            $this->error($response->body());
+        if (! $result->success) {
+            $this->error($result->message);
 
             if ($this->option('quiet')) {
                 return self::SUCCESS;

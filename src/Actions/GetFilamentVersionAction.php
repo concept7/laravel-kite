@@ -2,29 +2,12 @@
 
 namespace Concept7\LaravelKite\Actions;
 
-use Closure;
-use Composer\InstalledVersions;
-use Illuminate\Support\Collection;
-use OutOfBoundsException;
+use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 
-class GetFilamentVersionAction
+class GetFilamentVersionAction extends GetComposerPackageVersionAction
 {
-    public function handle(Collection $data, Closure $next)
+    public function __construct()
     {
-        try {
-            $version = InstalledVersions::getVersion('filament/filament');
-
-            if (blank($version)) {
-                $version = InstalledVersions::getVersion('filament/support');
-            }
-
-            $data->push([
-                'key' => 'filament_version',
-                'value' => $version,
-            ]);
-        } catch (OutOfBoundsException $e) {
-        }
-
-        return $next($data);
+        parent::__construct('filament_version', ['filament/filament', 'filament/support']);
     }
 }

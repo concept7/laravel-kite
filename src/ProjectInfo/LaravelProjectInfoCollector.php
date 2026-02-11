@@ -1,12 +1,17 @@
 <?php
 
-namespace Concept7\LaravelKite\Actions;
+namespace Concept7\LaravelKite\ProjectInfo;
 
+use Concept7\Kite\Contracts\ProjectInfoCollectorInterface;
 use Illuminate\Support\Facades\Process;
 
-class GetProjectInformationAction
+class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
 {
-    public function handle()
+    public function __construct(
+        protected string $phpPath = 'php',
+    ) {}
+
+    public function collect(): array
     {
         $app = app();
 
@@ -22,9 +27,9 @@ class GetProjectInformationAction
         ];
     }
 
-    public function getComposerPackageDetail()
+    private function getComposerPackageDetail(): array
     {
-        $result = Process::run(config('kite.php_path').' vendor/bin/composer show -D --format=json --no-dev');
+        $result = Process::run($this->phpPath.' vendor/bin/composer show -D --format=json --no-dev');
         $data = json_decode($result->output());
 
         if (blank($data)) {

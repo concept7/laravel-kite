@@ -2,25 +2,12 @@
 
 namespace Concept7\LaravelKite\Actions;
 
-use Closure;
-use Composer\InstalledVersions;
-use Illuminate\Support\Collection;
-use OutOfBoundsException;
+use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 
-class GetStatamicVersionAction
+class GetStatamicVersionAction extends GetComposerPackageVersionAction
 {
-    public function handle(Collection $data, Closure $next)
+    public function __construct()
     {
-        try {
-            $version = InstalledVersions::getVersion('statamic/cms');
-
-            $data->push([
-                'key' => 'statamic_version',
-                'value' => $version,
-            ]);
-        } catch (OutOfBoundsException $e) {
-        }
-
-        return $next($data);
+        parent::__construct('statamic_version', ['statamic/cms']);
     }
 }

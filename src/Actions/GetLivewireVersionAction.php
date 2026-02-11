@@ -2,25 +2,12 @@
 
 namespace Concept7\LaravelKite\Actions;
 
-use Closure;
-use Composer\InstalledVersions;
-use Illuminate\Support\Collection;
-use OutOfBoundsException;
+use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 
-class GetLivewireVersionAction
+class GetLivewireVersionAction extends GetComposerPackageVersionAction
 {
-    public function handle(Collection $data, Closure $next)
+    public function __construct()
     {
-        try {
-            $version = InstalledVersions::getVersion('livewire/livewire');
-
-            $data->push([
-                'key' => 'livewire_version',
-                'value' => $version,
-            ]);
-        } catch (OutOfBoundsException $e) {
-        }
-
-        return $next($data);
+        parent::__construct('livewire_version', ['livewire/livewire']);
     }
 }
