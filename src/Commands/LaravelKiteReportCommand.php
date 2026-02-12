@@ -2,8 +2,8 @@
 
 namespace Concept7\LaravelKite\Commands;
 
+use Concept7\Kite\Kite;
 use Concept7\Kite\KiteConfig;
-use Concept7\Kite\KiteReporter;
 use Concept7\LaravelKite\ProjectInfo\LaravelProjectInfoCollector;
 use Illuminate\Console\Command;
 
@@ -33,12 +33,12 @@ class LaravelKiteReportCommand extends Command
             return self::FAILURE;
         }
 
-        $collector = new LaravelProjectInfoCollector(config('kite.php_path', 'php'));
-        $reporter = new KiteReporter($config, $collector);
         $actions = array_map(fn ($action) => new $action, config('kite.actions', []));
-        $reporter->addActions($actions);
 
-        $result = $reporter->report();
+        $result = Kite::make($config)
+            ->projectInfoCollector(new LaravelProjectInfoCollector(config('kite.php_path', 'php')))
+            ->addActions($actions)
+            ->report();
 
         if (! $result->success) {
             $this->error($result->message);

@@ -3,14 +3,14 @@
 use Concept7\Kite\Contracts\ActionInterface;
 use Concept7\Kite\Contracts\ProjectInfoCollectorInterface;
 use Concept7\Kite\Http\KiteHttpClient;
+use Concept7\Kite\Kite;
 use Concept7\Kite\KiteConfig;
-use Concept7\Kite\KiteReporter;
 use Concept7\Kite\ReportResult;
 use Illuminate\Support\Collection;
 
 test('report fails with invalid config', function () {
     $config = new KiteConfig(uri: '', projectId: '', projectKey: '', projectRoot: '/tmp');
-    $reporter = new KiteReporter($config);
+    $reporter = Kite::make($config);
 
     $result = $reporter->report();
 
@@ -37,8 +37,9 @@ test('report sends meta data through pipeline', function () {
         })
         ->andReturn(ReportResult::success());
 
-    $reporter = new KiteReporter($config, null, $httpClient);
-    $result = $reporter->report();
+    $result = Kite::make($config)
+        ->setHttpClient($httpClient)
+        ->report();
 
     expect($result->success)->toBeTrue();
 });
@@ -65,8 +66,10 @@ test('report includes project info when collector is provided', function () {
         })
         ->andReturn(ReportResult::success());
 
-    $reporter = new KiteReporter($config, $collector, $httpClient);
-    $result = $reporter->report();
+    $result = Kite::make($config)
+        ->setHttpClient($httpClient)
+        ->projectInfoCollector($collector)
+        ->report();
 
     expect($result->success)->toBeTrue();
 });
@@ -99,9 +102,10 @@ test('report filters empty values from meta', function () {
         })
         ->andReturn(ReportResult::success());
 
-    $reporter = new KiteReporter($config, null, $httpClient);
-    $reporter->setActions([$emptyAction]);
-    $result = $reporter->report();
+    $result = Kite::make($config)
+        ->setHttpClient($httpClient)
+        ->setActions([$emptyAction])
+        ->report();
 
     expect($result->success)->toBeTrue();
 });
@@ -134,9 +138,10 @@ test('addAction appends to existing actions', function () {
         })
         ->andReturn(ReportResult::success());
 
-    $reporter = new KiteReporter($config, null, $httpClient);
-    $reporter->addAction($customAction);
-    $result = $reporter->report();
+    $result = Kite::make($config)
+        ->setHttpClient($httpClient)
+        ->addAction($customAction)
+        ->report();
 
     expect($result->success)->toBeTrue();
 });
