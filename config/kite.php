@@ -13,5 +13,6 @@ return [
         \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
         \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
     ],
 ];

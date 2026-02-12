@@ -4,7 +4,6 @@ use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 use Concept7\Kite\Actions\GetNodePackageVersionAction;
 use Concept7\Kite\Actions\GetPhpVersionAction;
 use Concept7\Kite\Actions\GetTailwindVersionAction;
-use Concept7\Kite\Actions\GetViteVersionAction;
 use Concept7\LaravelKite\Actions\GetFilamentVersionAction;
 use Concept7\LaravelKite\Actions\GetLivewireVersionAction;
 use Concept7\LaravelKite\Actions\GetStatamicVersionAction;
@@ -58,7 +57,7 @@ test('GetTailwindVersionAction sets correct meta key and package name', function
 });
 
 test('GetViteVersionAction sets correct meta key and package name', function () {
-    $action = new GetViteVersionAction('/nonexistent/path');
+    $action = new \Concept7\LaravelKite\Actions\GetViteVersionAction('/nonexistent/path');
     $result = $action->handle(collect([]), fn ($data) => $data);
 
     expect($result)->toBeEmpty();
