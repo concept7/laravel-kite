@@ -19,8 +19,6 @@ class LaravelKiteReportCommand extends Command
             uri: config('kite.uri', ''),
             projectId: config('kite.project_id', ''),
             projectKey: config('kite.project_key', ''),
-            projectRoot: base_path(),
-            phpPath: config('kite.php_path', 'php'),
         );
 
         if (! $config->isValid()) {
@@ -36,7 +34,7 @@ class LaravelKiteReportCommand extends Command
         $actions = array_map(fn ($action) => new $action, config('kite.actions', []));
 
         $result = Kite::make($config)
-            ->projectInfoCollector(new LaravelProjectInfoCollector(config('kite.php_path', 'php')))
+            ->projectInfoCollector(new LaravelProjectInfoCollector)
             ->addActions($actions)
             ->report();
 

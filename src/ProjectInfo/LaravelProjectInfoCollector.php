@@ -3,14 +3,10 @@
 namespace Concept7\LaravelKite\ProjectInfo;
 
 use Concept7\Kite\Contracts\ProjectInfoCollectorInterface;
-use Illuminate\Support\Facades\Process;
+use Concept7\Kite\Support\ComposerDependencies;
 
 class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
 {
-    public function __construct(
-        protected string $phpPath = 'php',
-    ) {}
-
     public function collect(): array
     {
         $app = app();
@@ -23,19 +19,7 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
             'is_maintenance_mode_on' => $app->isDownForMaintenance(),
             'php_version' => phpversion(),
             'url' => config('app.url'),
-            'packages' => $this->getComposerPackageDetail(),
+            'packages' => ComposerDependencies::direct(config('kite.php_path', 'php')),
         ];
-    }
-
-    private function getComposerPackageDetail(): array
-    {
-        $result = Process::run($this->phpPath.' vendor/bin/composer show -D --format=json --no-dev');
-        $data = json_decode($result->output());
-
-        if (blank($data)) {
-            return [];
-        }
-
-        return $data->installed;
     }
 }

@@ -42,22 +42,22 @@ test('GetComposerPackageVersionAction tries fallback packages', function () {
 });
 
 test('GetNodePackageVersionAction skips when lock file missing', function () {
-    $action = new GetNodePackageVersionAction('/nonexistent/path', 'test_version', 'tailwindcss');
+    $action = new GetNodePackageVersionAction('test_version', 'tailwindcss', '/nonexistent/path');
     $result = $action->handle(collect([]), fn ($data) => $data);
 
     expect($result)->toBeEmpty();
 });
 
 test('GetTailwindVersionAction sets correct meta key and package name', function () {
-    $action = new GetTailwindVersionAction('/nonexistent/path');
+    $action = new GetTailwindVersionAction;
     $result = $action->handle(collect([]), fn ($data) => $data);
 
-    // Returns empty since file doesn't exist, but class instantiates correctly
+    // Returns empty since lock file doesn't exist in test environment
     expect($result)->toBeEmpty();
 });
 
 test('GetViteVersionAction sets correct meta key and package name', function () {
-    $action = new \Concept7\LaravelKite\Actions\GetViteVersionAction('/nonexistent/path');
+    $action = new \Concept7\LaravelKite\Actions\GetViteVersionAction;
     $result = $action->handle(collect([]), fn ($data) => $data);
 
     expect($result)->toBeEmpty();

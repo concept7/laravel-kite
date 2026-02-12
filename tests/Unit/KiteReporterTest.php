@@ -9,7 +9,7 @@ use Concept7\Kite\ReportResult;
 use Illuminate\Support\Collection;
 
 test('report fails with invalid config', function () {
-    $config = new KiteConfig(uri: '', projectId: '', projectKey: '', projectRoot: '/tmp');
+    $config = new KiteConfig(uri: '', projectId: '', projectKey: '');
     $reporter = Kite::make($config);
 
     $result = $reporter->report();
@@ -23,7 +23,6 @@ test('report sends meta data through pipeline', function () {
         uri: 'https://kite.example.com',
         projectId: '1',
         projectKey: 'secret',
-        projectRoot: '/tmp',
     );
 
     $httpClient = Mockery::mock(KiteHttpClient::class);
@@ -49,7 +48,6 @@ test('report includes project info when collector is provided', function () {
         uri: 'https://kite.example.com',
         projectId: '1',
         projectKey: 'secret',
-        projectRoot: '/tmp',
     );
 
     $collector = Mockery::mock(ProjectInfoCollectorInterface::class);
@@ -79,7 +77,6 @@ test('report filters empty values from meta', function () {
         uri: 'https://kite.example.com',
         projectId: '1',
         projectKey: 'secret',
-        projectRoot: '/tmp',
     );
 
     $emptyAction = new class implements ActionInterface
@@ -115,7 +112,6 @@ test('addAction appends to existing actions', function () {
         uri: 'https://kite.example.com',
         projectId: '1',
         projectKey: 'secret',
-        projectRoot: '/tmp',
     );
 
     $customAction = new class implements ActionInterface

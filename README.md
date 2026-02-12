@@ -64,7 +64,7 @@ return [
 | `uri` | `KITE_URI` | Base URL of the Kite API |
 | `project_id` | `KITE_PROJECT_ID` | Project ID in Kite |
 | `project_key` | `KITE_PROJECT_KEY` | API key for authentication |
-| `php_path` | `KITE_PHP_PATH` | Path to PHP binary (default: `php`) |
+| `php_path` | `KITE_PHP_PATH` | Optional. Path to PHP binary (default: `php`) |
 | `actions` | | Extra actions to run alongside the defaults |
 
 ## Usage
@@ -164,9 +164,9 @@ use Concept7\Kite\Actions\GetNodePackageVersionAction;
 // Track a Node package version from package-lock.json
 class GetAlpineVersionAction extends GetNodePackageVersionAction
 {
-    public function __construct(string $projectRoot)
+    public function __construct()
     {
-        parent::__construct($projectRoot, 'alpine_version', 'alpinejs');
+        parent::__construct('alpine_version', 'alpinejs');
     }
 }
 ```
