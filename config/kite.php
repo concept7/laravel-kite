@@ -9,6 +9,7 @@ return [
     'php_path' => env('KITE_PHP_PATH', 'php'),
 
     'actions' => [
+        \Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
         \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,

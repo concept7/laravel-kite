@@ -19,7 +19,7 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
             'is_maintenance_mode_on' => $app->isDownForMaintenance(),
             'php_version' => phpversion(),
             'url' => config('app.url'),
-            'packages' => ComposerDependencies::direct(config('kite.php_path', 'php')),
+            'packages' => ComposerDependencies::direct(),
         ];
     }
 }

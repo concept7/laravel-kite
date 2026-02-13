@@ -6,7 +6,7 @@ use Concept7\Kite\Http\KiteHttpClient;
 use Concept7\Kite\Kite;
 use Concept7\Kite\KiteConfig;
 use Concept7\Kite\ReportResult;
-use Illuminate\Support\Collection;
+use Concept7\Kite\Support\Collection;
 
 test('report fails with invalid config', function () {
     $config = new KiteConfig(uri: '', projectId: '', projectKey: '');

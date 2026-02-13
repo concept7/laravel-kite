@@ -2,8 +2,8 @@
 
 use Concept7\Kite\Actions\GetPhpVersionAction;
 use Concept7\Kite\Contracts\ActionInterface;
-use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Collection;
+use Concept7\Kite\Support\Collection;
+use Concept7\Kite\Support\Pipeline;
 
 test('pipeline passes data through actions in order', function () {
     $actionA = new class implements ActionInterface
@@ -27,7 +27,7 @@ test('pipeline passes data through actions in order', function () {
     };
 
     $result = (new Pipeline)
-        ->send(collect([]))
+        ->send(new Collection)
         ->through([$actionA, $actionB])
         ->thenReturn();
 
@@ -39,7 +39,7 @@ test('pipeline passes data through actions in order', function () {
 
 test('pipeline returns initial data when no actions', function () {
     $result = (new Pipeline)
-        ->send(collect([]))
+        ->send(new Collection)
         ->through([])
         ->thenReturn();
 
@@ -48,7 +48,7 @@ test('pipeline returns initial data when no actions', function () {
 
 test('pipeline resolves action instances', function () {
     $result = (new Pipeline)
-        ->send(collect([]))
+        ->send(new Collection)
         ->through([new GetPhpVersionAction])
         ->thenReturn();
 

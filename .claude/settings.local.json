@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "WebFetch(domain:roots.io)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:developer.wordpress.org)",
+      "WebSearch",
+      "WebFetch(domain:deliciousbrains.com)",
+      "Bash(composer install:*)",
+      "Bash(vendor/bin/pest:*)",
+      "Bash(vendor/bin/pint:*)"
+    ]
+  }
+}
