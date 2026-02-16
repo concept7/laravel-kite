@@ -2,7 +2,7 @@
 
 use Concept7\Kite\Actions\GetPhpVersionAction;
 use Concept7\Kite\Contracts\ActionInterface;
-use Concept7\Kite\Support\Collection;
+use Illuminate\Support\Collection;
 use Concept7\Kite\Support\Pipeline;
 
 test('pipeline passes data through actions in order', function () {

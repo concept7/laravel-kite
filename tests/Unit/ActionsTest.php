@@ -4,7 +4,7 @@ use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 use Concept7\Kite\Actions\GetNodePackageVersionAction;
 use Concept7\Kite\Actions\GetPhpVersionAction;
 use Concept7\Kite\Actions\GetTailwindVersionAction;
-use Concept7\Kite\Support\Collection;
+use Illuminate\Support\Collection;
 use Concept7\LaravelKite\Actions\GetFilamentVersionAction;
 use Concept7\LaravelKite\Actions\GetLivewireVersionAction;
 use Concept7\LaravelKite\Actions\GetStatamicVersionAction;
