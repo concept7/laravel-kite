@@ -33,13 +33,13 @@ class LaravelKiteReportCommand extends Command
 
         $actions = array_map(fn ($action) => new $action, config('kite.actions', []));
 
-        $result = Kite::make($config)
-            ->projectInfoCollector(new LaravelProjectInfoCollector)
-            ->addActions($actions)
-            ->report();
-
-        if (! $result->success) {
-            $this->error($result->message);
+        try {
+            Kite::make($config)
+                ->projectInfoCollector(new LaravelProjectInfoCollector)
+                ->addActions($actions)
+                ->report();
+        } catch (\Throwable $e) {
+            $this->error($e->getMessage());
 
             if ($this->option('quiet')) {
                 return self::SUCCESS;
