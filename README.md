@@ -1,72 +1,185 @@
-# This is my package laravel-kite
+# Laravel Kite
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/concept7/laravel-kite.svg?style=flat-square)](https://packagist.org/packages/concept7/laravel-kite)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/concept7/laravel-kite/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/concept7/laravel-kite/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/concept7/laravel-kite/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/concept7/laravel-kite/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/concept7/laravel-kite.svg?style=flat-square)](https://packagist.org/packages/concept7/laravel-kite)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-kite.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-kite)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+Laravel integration for [Kite](https://gitlab.concept7.nl/workflow/kite) monitoring. Automatically reports project metadata (PHP, Laravel, database, frontend tooling, installed packages) to the Kite API on a daily schedule.
 
 ## Installation
 
-Add this Composer repository to your project's composer.json file.
+Add the Concept7 Composer repository to your project:
 
 ```json
 {
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://packagist.concept7.nl"
-    }
-  ]
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packagist.concept7.nl"
+        }
+    ]
 }
 ```
 
-You can install the package via composer:
+Install the package:
 
 ```bash
 composer require concept7/laravel-kite
 ```
 
-Optionally you can publish the config file with:
+Publish the config file:
 
 ```bash
 php artisan vendor:publish --tag="laravel-kite-config"
 ```
 
-This is the contents of the published config file:
+Add the following environment variables to your `.env` file:
+
+```env
+KITE_URI=https://kite.example.com
+KITE_PROJECT_ID=your-project-id
+KITE_PROJECT_KEY=your-project-key
+```
+
+## Configuration
+
+The published config file (`config/kite.php`):
 
 ```php
 return [
-    'monitor_uri' => env('MONITOR_URI'),
+    'uri' => env('KITE_URI'),
 
     'project_id' => env('KITE_PROJECT_ID'),
     'project_key' => env('KITE_PROJECT_KEY'),
 
+    'php_path' => env('KITE_PHP_PATH', 'php'),
+
     'actions' => [
-        \Concept7\LaravelKite\Actions\GetPhpVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
         \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
         \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetTailwindVersion::class,
-        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
     ],
 ];
 ```
 
+| Key | Environment variable | Description |
+|---|---|---|
+| `uri` | `KITE_URI` | Base URL of the Kite API |
+| `project_id` | `KITE_PROJECT_ID` | Project ID in Kite |
+| `project_key` | `KITE_PROJECT_KEY` | API key for authentication |
+| `php_path` | `KITE_PHP_PATH` | Optional. Path to PHP binary (default: `php`) |
+| `actions` | | Extra actions to run alongside the defaults |
+
 ## Usage
 
+The `kite:report` command runs automatically on a daily schedule. To run it manually:
+
 ```bash
-php artisan kite:sync
+php artisan kite:report
+```
+
+### What gets reported
+
+The report includes two parts:
+
+**Meta** — Version information collected by actions. The core `concept7/kite` package provides default actions for PHP, MySQL/MariaDB, and Tailwind CSS versions. The `actions` array in the config adds Laravel-specific actions on top of those.
+
+**Project info** — Collected automatically by `LaravelProjectInfoCollector`:
+
+| Field | Description |
+|---|---|
+| `hostname` | Server hostname |
+| `environment` | App environment (`production`, `staging`, etc.) |
+| `is_debug_mode_on` | Whether debug mode is enabled |
+| `is_maintenance_mode_on` | Whether maintenance mode is active |
+| `laravel_version` | Laravel framework version |
+| `php_version` | PHP version |
+| `url` | Application URL |
+| `packages` | List of direct Composer dependencies |
+
+## Actions
+
+### Included actions
+
+| Action | Meta key | Description |
+|---|---|---|
+| `GetLaravelVersionAction` | `laravel_version` | Laravel framework version |
+| `GetStatamicVersionAction` | `statamic_version` | Statamic CMS version |
+| `GetLivewireVersionAction` | `livewire_version` | Livewire version |
+| `GetFilamentVersionAction` | `filament_version` | Filament version |
+| `GetViteVersionAction` | `vite_version` | Vite version (from `package-lock.json`) |
+
+Actions for packages that aren't installed are automatically skipped.
+
+### Adding a custom action
+
+Add the action class to the `actions` array in `config/kite.php`:
+
+```php
+'actions' => [
+    \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
+    \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
+    \App\Kite\GetCustomMetaAction::class,
+],
+```
+
+A custom action implements `ActionInterface`:
+
+```php
+namespace App\Kite;
+
+use Closure;
+use Concept7\Kite\Contracts\ActionInterface;
+use Illuminate\Support\Collection;
+
+class GetCustomMetaAction implements ActionInterface
+{
+    public function handle(Collection $data, Closure $next): Collection
+    {
+        $data->push([
+            'key' => 'custom_meta',
+            'value' => 'your-value',
+        ]);
+
+        return $next($data);
+    }
+}
+```
+
+You can also use the built-in base classes for common patterns:
+
+```php
+use Concept7\Kite\Actions\GetComposerPackageVersionAction;
+
+// Track a Composer package version
+class GetInertiaVersionAction extends GetComposerPackageVersionAction
+{
+    public function __construct()
+    {
+        parent::__construct('inertia_version', ['inertiajs/inertia-laravel']);
+    }
+}
+```
+
+```php
+use Concept7\Kite\Actions\GetNodePackageVersionAction;
+
+// Track a Node package version from package-lock.json
+class GetAlpineVersionAction extends GetNodePackageVersionAction
+{
+    public function __construct()
+    {
+        parent::__construct('alpine_version', 'alpinejs');
+    }
+}
+```
+
+### Removing actions
+
+Remove any actions you don't need from the `actions` array. For example, if your project doesn't use Statamic or Filament:
+
+```php
+'actions' => [
+    \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
+    \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
+],
 ```
 
 ## Testing
@@ -74,23 +187,6 @@ php artisan kite:sync
 ```bash
 composer test
 ```
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [Martijn Wagena](https://github.com/mwagena)
-- [All Contributors](../../contributors)
 
 ## License
 

@@ -4,10 +4,10 @@ namespace Concept7\LaravelKite\Actions;
 
 use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 
-class GetLivewireVersionAction extends GetComposerPackageVersionAction
+class GetLaravelKiteVersionAction extends GetComposerPackageVersionAction
 {
     public function __construct()
     {
-        parent::__construct('livewire_version', ['livewire/livewire']);
+        parent::__construct('laravel_kite_version', ['concept7/laravel-kite']);
     }
 }

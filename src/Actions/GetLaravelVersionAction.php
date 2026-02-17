@@ -3,11 +3,12 @@
 namespace Concept7\LaravelKite\Actions;
 
 use Closure;
+use Concept7\Kite\Contracts\ActionInterface;
 use Illuminate\Support\Collection;
 
-class GetLaravelVersionAction
+class GetLaravelVersionAction implements ActionInterface
 {
-    public function handle(Collection $data, Closure $next)
+    public function handle(Collection $data, Closure $next): Collection
     {
         $data->push([
             'key' => 'laravel_version',

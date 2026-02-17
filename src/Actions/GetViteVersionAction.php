@@ -2,23 +2,12 @@
 
 namespace Concept7\LaravelKite\Actions;
 
-use Closure;
-use Illuminate\Support\Collection;
+use Concept7\Kite\Actions\GetNodePackageVersionAction;
 
-class GetViteVersionAction
+class GetViteVersionAction extends GetNodePackageVersionAction
 {
-    public function handle(Collection $data, Closure $next)
+    public function __construct()
     {
-        $packageJsonData = file_get_contents(base_path('package-lock.json'));
-        $json = json_decode($packageJsonData, true);
-
-        $version = data_get($json, 'packages.node_modules/vite.version');
-
-        $data->push([
-            'key' => 'vite_version',
-            'value' => $version,
-        ]);
-
-        return $next($data);
+        parent::__construct('vite_version', 'vite');
     }
 }
