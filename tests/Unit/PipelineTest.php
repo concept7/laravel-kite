@@ -2,8 +2,8 @@
 
 use Concept7\Kite\Actions\GetPhpVersionAction;
 use Concept7\Kite\Contracts\ActionInterface;
-use Illuminate\Support\Collection;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Collection;
 
 test('pipeline passes data through actions in order', function () {
     $actionA = new class implements ActionInterface

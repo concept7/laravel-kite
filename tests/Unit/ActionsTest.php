@@ -4,10 +4,10 @@ use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 use Concept7\Kite\Actions\GetNodePackageVersionAction;
 use Concept7\Kite\Actions\GetPhpVersionAction;
 use Concept7\Kite\Actions\GetTailwindVersionAction;
-use Illuminate\Support\Collection;
 use Concept7\LaravelKite\Actions\GetFilamentVersionAction;
 use Concept7\LaravelKite\Actions\GetLivewireVersionAction;
 use Concept7\LaravelKite\Actions\GetStatamicVersionAction;
+use Illuminate\Support\Collection;
 
 test('GetPhpVersionAction returns php version', function () {
     $action = new GetPhpVersionAction;
