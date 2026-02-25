@@ -33,11 +33,21 @@ class LaravelKiteReportCommand extends Command
 
         $actions = array_map(fn ($action) => new $action, config('kite.actions', []));
 
+        $collector = new LaravelProjectInfoCollector;
+        $projectInfo = $collector->collect();
+
         try {
             Kite::make($config)
-                ->projectInfoCollector(new LaravelProjectInfoCollector)
+                ->projectInfoCollector($collector)
                 ->addActions($actions)
                 ->report();
+
+            $this->line(sprintf(
+                'Reporting <info>%s</info> · <info>%d</info> packages · <info>%d</info> actions',
+                $projectInfo['environment'],
+                count($projectInfo['packages']),
+                count($actions),
+            ));
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
 
@@ -47,6 +57,8 @@ class LaravelKiteReportCommand extends Command
 
             return self::FAILURE;
         }
+
+        $this->info('Report sent successfully.');
 
         return self::SUCCESS;
     }
