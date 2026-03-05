@@ -23,9 +23,6 @@ composer:
     - !reference [.composer-auth, before_script]
   parallel:
     matrix:
-      - PHP_VERSION: "8.2"
-        LARAVEL: "^10.0"
-        TESTBENCH: "^8.0"
       - PHP_VERSION: "8.3"
         LARAVEL: "^11.0"
         TESTBENCH: "^9.0"
@@ -59,9 +56,6 @@ pest:
   image: $PHP_CONTAINER_URI
   parallel:
     matrix:
-      - PHP_VERSION: "8.2"
-        LARAVEL: "^10.0"
-        TESTBENCH: "^8.0"
       - PHP_VERSION: "8.3"
         LARAVEL: "^11.0"
         TESTBENCH: "^9.0"
