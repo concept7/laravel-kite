@@ -1,0 +1,11 @@
+include:
+  - project: "workflow/ci-cd-template"
+    ref: "latest"
+    file: ".gitlab-ci-template.yml"
+
+variables:
+  UNIT_TESTING_ENABLED: "true"
+  TESTING_DB_ENABLED: "false"
+  CYPRESS_TESTING_ENABLED: "false"
+  FORCE_PINT_ENABLED: "true"
+  TESTING_FRAMEWORK: "pest"
