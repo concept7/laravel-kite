@@ -16,9 +16,8 @@ class LaravelKiteReportCommand extends Command
     public function handle(): int
     {
         $config = new KiteConfig(
+            token: config('kite.token'),
             uri: config('kite.uri'),
-            projectId: config('kite.project_id'),
-            projectKey: config('kite.project_key'),
         );
 
         if (! $config->isValid()) {
