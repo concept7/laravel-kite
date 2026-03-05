@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'uri' => env('KITE_URI'),
+    'token' => env('KITE_TOKEN'),
 
-    'project_id' => env('KITE_PROJECT_ID'),
-    'project_key' => env('KITE_PROJECT_KEY'),
+    // Optional: override the Kite API base URL (for development)
+    'uri' => env('KITE_URI'),
 
     'actions' => [
         \Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction::class,
