@@ -1,11 +1,72 @@
-include:
-  - project: "workflow/ci-cd-template"
-    ref: "latest"
-    file: ".gitlab-ci-template.yml"
-
 variables:
-  UNIT_TESTING_ENABLED: "true"
-  TESTING_DB_ENABLED: "false"
-  CYPRESS_TESTING_ENABLED: "false"
-  FORCE_PINT_ENABLED: "true"
-  TESTING_FRAMEWORK: "pest"
+  PHP_CONTAINER_URI: "registry.concept7.nl/workflow/php-${PHP_VERSION}:latest"
+
+stages:
+  - install
+  - code-style
+  - test
+
+composer:
+  stage: install
+  image: $PHP_CONTAINER_URI
+  parallel:
+    matrix:
+      - PHP_VERSION: "8.2"
+        LARAVEL: "^10.0"
+        TESTBENCH: "^8.0"
+      - PHP_VERSION: "8.3"
+        LARAVEL: "^11.0"
+        TESTBENCH: "^9.0"
+      - PHP_VERSION: "8.4"
+        LARAVEL: "^12.0"
+        TESTBENCH: "^10.0"
+  script:
+    - composer require "illuminate/contracts:${LARAVEL}" "orchestra/testbench:${TESTBENCH}" --no-interaction --no-update
+    - composer update --prefer-dist --no-interaction --no-progress
+  artifacts:
+    paths:
+      - vendor/
+    expire_in: 1 day
+  cache:
+    key: composer-${PHP_VERSION}-${LARAVEL}
+    paths:
+      - vendor/
+
+pint:
+  stage: code-style
+  image: "registry.concept7.nl/workflow/php-8.4:latest"
+  needs:
+    - job: composer
+      parallel:
+        matrix:
+          - PHP_VERSION: "8.4"
+            LARAVEL: "^12.0"
+            TESTBENCH: "^10.0"
+  script:
+    - vendor/bin/pint --test
+
+pest:
+  stage: test
+  image: $PHP_CONTAINER_URI
+  parallel:
+    matrix:
+      - PHP_VERSION: "8.2"
+        LARAVEL: "^10.0"
+        TESTBENCH: "^8.0"
+      - PHP_VERSION: "8.3"
+        LARAVEL: "^11.0"
+        TESTBENCH: "^9.0"
+      - PHP_VERSION: "8.4"
+        LARAVEL: "^12.0"
+        TESTBENCH: "^10.0"
+  needs:
+    - job: composer
+      artifacts: true
+  script:
+    - vendor/bin/pest
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_REF_PROTECTED
