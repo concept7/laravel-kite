@@ -32,6 +32,7 @@ composer:
   script:
     - composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
     - composer require "orchestra/testbench:${TESTBENCH}" --dev --no-interaction --no-update
+    - composer config platform.php ${PHP_VERSION}
     - composer update --prefer-dist --no-interaction --no-progress
   artifacts:
     paths:
