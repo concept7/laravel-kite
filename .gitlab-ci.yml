@@ -10,51 +10,32 @@ variables:
     - cp ${COMPOSER_AUTH_FILE} auth.json || { echo "Missing composer auth file"; exit 1; }
 
 stages:
-  - install
-  - code-style
   - test
 
-composer:
-  stage: install
-  image: $PHP_CONTAINER_URI
-  interruptible: true
+.composer-install:
   before_script:
     - !reference [.install-composer, before_script]
     - !reference [.composer-auth, before_script]
-  parallel:
-    matrix:
-      - PHP_VERSION: "8.3"
-        LARAVEL: "^11.0"
-        TESTBENCH: "^9.0"
-      - PHP_VERSION: "8.4"
-        LARAVEL: "^12.0"
-        TESTBENCH: "^10.0"
-  script:
     - composer require "illuminate/contracts:${LARAVEL}" --no-interaction --no-update
     - composer require "orchestra/testbench:${TESTBENCH}" --dev --no-interaction --no-update
     - composer config platform.php ${PHP_VERSION}
     - composer update --prefer-dist --no-interaction --no-progress
-  artifacts:
-    paths:
-      - vendor/
-    expire_in: 1 day
 
 pint:
-  stage: code-style
+  stage: test
   image: "registry.concept7.nl/workflow/php-8.4:latest"
-  needs:
-    - job: composer
-      parallel:
-        matrix:
-          - PHP_VERSION: "8.4"
-            LARAVEL: "^12.0"
-            TESTBENCH: "^10.0"
+  variables:
+    PHP_VERSION: "8.4"
+    LARAVEL: "^12.0"
+    TESTBENCH: "^10.0"
+  extends: .composer-install
   script:
     - vendor/bin/pint --test
 
 pest:
   stage: test
   image: $PHP_CONTAINER_URI
+  extends: .composer-install
   parallel:
     matrix:
       - PHP_VERSION: "8.3"
@@ -63,9 +44,6 @@ pest:
       - PHP_VERSION: "8.4"
         LARAVEL: "^12.0"
         TESTBENCH: "^10.0"
-  needs:
-    - job: composer
-      artifacts: true
   script:
     - vendor/bin/pest
 
