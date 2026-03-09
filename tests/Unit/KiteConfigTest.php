@@ -20,6 +20,6 @@ test('isValid returns false when token is empty', function () {
 });
 
 test('isValid returns false when token is null', function () {
-    $config = new KiteConfig();
+    $config = new KiteConfig;
     expect($config->isValid())->toBeFalse();
 });

@@ -4,6 +4,7 @@ namespace Concept7\LaravelKite\ProjectInfo;
 
 use Concept7\Kite\Contracts\ProjectInfoCollectorInterface;
 use Concept7\Kite\Support\ComposerDependencies;
+use Concept7\Kite\Support\NpmDependencies;
 
 class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
 {
@@ -19,7 +20,10 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
             'is_maintenance_mode_on' => $app->isDownForMaintenance(),
             'php_version' => phpversion(),
             'url' => config('app.url'),
-            'packages' => ComposerDependencies::all(),
+            'packages' => array_merge(
+                ComposerDependencies::all(),
+                NpmDependencies::installed(),
+            ),
         ];
     }
 }
