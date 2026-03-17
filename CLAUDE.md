@@ -30,14 +30,14 @@ composer analyse           # Static analysis (PHPStan)
 
 ### Reporting Flow
 
-`LaravelKiteReportCommand` builds a `KiteConfig` (uri, projectId, projectKey) from env vars → creates `Kite::make($config)` → adds Laravel-specific actions from config → runs pipeline → filters empty values → collects project info via `LaravelProjectInfoCollector` (which uses `ComposerDependencies::direct()` from the core package) → POSTs to Kite API with bearer token auth → returns `ReportResult`.
+`LaravelKiteReportCommand` builds a `KiteConfig` (token, uri) from env vars → creates `Kite::make($config)` → adds Laravel-specific actions from config → runs pipeline → filters empty values → collects project info via `LaravelProjectInfoCollector` (which uses `ComposerDependencies::direct()` from the core package) → POSTs to Kite API with bearer token auth → returns `ReportResult`.
 
 ### Key Patterns
 
 - **Pipeline pattern**: Actions implement `ActionInterface` (`handle(Collection $data, Closure $next)`), chained via `Illuminate\Pipeline`.
 - **Base action classes** in core for reuse: `GetComposerPackageVersionAction` (checks `Composer\InstalledVersions`) and `GetNodePackageVersionAction` (reads `package-lock.json`, auto-detects project root). Laravel-specific actions extend these.
 - **Shared utilities** in core: `ComposerDependencies::direct()` collects direct Composer dependencies via `composer show`.
-- **Value objects**: `KiteConfig` (uri, projectId, projectKey — immutable with validation), `ReportResult` (static constructors `success()`/`failure()`).
+- **Value objects**: `KiteConfig` (token, uri — immutable with validation), `ReportResult` (static constructors `success()`/`failure()`).
 - **Fluent API**: `Kite::make($config)->projectInfoCollector(...)->addAction(...)->report()`.
 
 ### Key Files
@@ -57,8 +57,7 @@ composer analyse           # Static analysis (PHPStan)
 ### Environment Variables
 
 - `KITE_URI` — Base URL of Kite API (required)
-- `KITE_PROJECT_ID` — Project identifier (required)
-- `KITE_PROJECT_KEY` — API auth key (required)
+- `KITE_TOKEN` — API authentication token (required)
 - `KITE_PHP_PATH` — PHP binary path (optional, default: `php`)
 
 ## Conventions
