@@ -46,10 +46,6 @@ class LaravelKiteReportCommand extends Command
         } catch (\Throwable $e) {
             $this->error($e->getMessage());
 
-            if ($this->option('quiet')) {
-                return self::SUCCESS;
-            }
-
             return self::FAILURE;
         }
 
