@@ -11,7 +11,7 @@ Add the Concept7 Composer repository to your project:
     "repositories": [
         {
             "type": "composer",
-            "url": "https://packagist.concept7.nl"
+            "url": "https://packagist.concept7.dev"
         }
     ]
 }
@@ -29,12 +29,10 @@ Publish the config file:
 php artisan vendor:publish --tag="laravel-kite-config"
 ```
 
-Add the following environment variables to your `.env` file:
+Add the `KITE_TOKEN` to your `.env` file (generated from the [Kite Dashboard](https://kite-monitor.concept7.dev/)):
 
 ```env
-KITE_URI=https://kite.example.com
-KITE_PROJECT_ID=your-project-id
-KITE_PROJECT_KEY=your-project-key
+KITE_TOKEN=your-kite-token
 ```
 
 ## Configuration
@@ -43,28 +41,26 @@ The published config file (`config/kite.php`):
 
 ```php
 return [
+    'token' => env('KITE_TOKEN'),
+
+    // Optional: override the Kite API base URL (for development)
     'uri' => env('KITE_URI'),
 
-    'project_id' => env('KITE_PROJECT_ID'),
-    'project_key' => env('KITE_PROJECT_KEY'),
-
-    'php_path' => env('KITE_PHP_PATH', 'php'),
-
     'actions' => [
+        \Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
         \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
         \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
         \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
+        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
     ],
 ];
 ```
 
 | Key | Environment variable | Description |
 |---|---|---|
-| `uri` | `KITE_URI` | Base URL of the Kite API |
-| `project_id` | `KITE_PROJECT_ID` | Project ID in Kite |
-| `project_key` | `KITE_PROJECT_KEY` | API key for authentication |
-| `php_path` | `KITE_PHP_PATH` | Optional. Path to PHP binary (default: `php`) |
+| `token` | `KITE_TOKEN` | API token (generated from the dashboard) |
+| `uri` | `KITE_URI` | Optional. Override the Kite API base URL |
 | `actions` | | Extra actions to run alongside the defaults |
 
 ## Usage
@@ -79,7 +75,7 @@ php artisan kite:report
 
 The report includes two parts:
 
-**Meta** — Version information collected by actions. The core `concept7/kite` package provides default actions for PHP, MySQL/MariaDB, and Tailwind CSS versions. The `actions` array in the config adds Laravel-specific actions on top of those.
+**Meta** — Version information collected by actions. The core SDK provides default actions for PHP, MySQL/MariaDB, Tailwind CSS, and Kite SDK versions. The `actions` array in the config adds Laravel-specific actions on top.
 
 **Project info** — Collected automatically by `LaravelProjectInfoCollector`:
 
@@ -92,7 +88,7 @@ The report includes two parts:
 | `laravel_version` | Laravel framework version |
 | `php_version` | PHP version |
 | `url` | Application URL |
-| `packages` | List of direct Composer dependencies |
+| `packages` | Installed Composer and npm packages |
 
 ## Actions
 
@@ -100,6 +96,7 @@ The report includes two parts:
 
 | Action | Meta key | Description |
 |---|---|---|
+| `GetLaravelKiteVersionAction` | `laravel_kite_version` | Laravel Kite package version |
 | `GetLaravelVersionAction` | `laravel_version` | Laravel framework version |
 | `GetStatamicVersionAction` | `statamic_version` | Statamic CMS version |
 | `GetLivewireVersionAction` | `livewire_version` | Livewire version |
@@ -148,7 +145,6 @@ You can also use the built-in base classes for common patterns:
 ```php
 use Concept7\Kite\Actions\GetComposerPackageVersionAction;
 
-// Track a Composer package version
 class GetInertiaVersionAction extends GetComposerPackageVersionAction
 {
     public function __construct()
@@ -161,7 +157,6 @@ class GetInertiaVersionAction extends GetComposerPackageVersionAction
 ```php
 use Concept7\Kite\Actions\GetNodePackageVersionAction;
 
-// Track a Node package version from package-lock.json
 class GetAlpineVersionAction extends GetNodePackageVersionAction
 {
     public function __construct()
