@@ -63,6 +63,6 @@ composer analyse           # Static analysis (PHPStan)
 ## Conventions
 
 - PHP 8.2+ with readonly properties and named arguments
-- Supports Laravel 10, 11, and 12
+- Supports Laravel 10, 11, 12, and 13
 - Missing packages/tools are silently skipped (no exceptions)
 - Namespace: `Concept7\LaravelKite` (this package), `Concept7\Kite` (core package)
