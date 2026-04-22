@@ -1,5 +1,12 @@
 <?php
 
+use Concept7\LaravelKite\Actions\GetFilamentVersionAction;
+use Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction;
+use Concept7\LaravelKite\Actions\GetLaravelVersionAction;
+use Concept7\LaravelKite\Actions\GetLivewireVersionAction;
+use Concept7\LaravelKite\Actions\GetStatamicVersionAction;
+use Concept7\LaravelKite\Actions\GetViteVersionAction;
+
 return [
     'token' => env('KITE_TOKEN'),
 
@@ -7,11 +14,11 @@ return [
     'uri' => env('KITE_URI'),
 
     'actions' => [
-        \Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
+        GetLaravelKiteVersionAction::class,
+        GetLaravelVersionAction::class,
+        GetStatamicVersionAction::class,
+        GetLivewireVersionAction::class,
+        GetFilamentVersionAction::class,
+        GetViteVersionAction::class,
     ],
 ];
