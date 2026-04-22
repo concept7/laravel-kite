@@ -10,11 +10,11 @@ test('command fails when credentials are missing', function () {
         ->assertExitCode(1);
 });
 
-test('command succeeds silently when credentials are missing and quiet', function () {
+test('command fails silently when credentials are missing and quiet', function () {
     config()->set('kite.uri', '');
     config()->set('kite.project_id', '');
     config()->set('kite.project_key', '');
 
     $this->artisan('kite:report --quiet')
-        ->assertExitCode(0);
+        ->assertExitCode(1);
 });
