@@ -7,6 +7,7 @@ use Concept7\Kite\Actions\GetTailwindVersionAction;
 use Concept7\LaravelKite\Actions\GetFilamentVersionAction;
 use Concept7\LaravelKite\Actions\GetLivewireVersionAction;
 use Concept7\LaravelKite\Actions\GetStatamicVersionAction;
+use Concept7\LaravelKite\Actions\GetViteVersionAction;
 use Illuminate\Support\Collection;
 
 test('GetPhpVersionAction returns php version', function () {
@@ -58,7 +59,7 @@ test('GetTailwindVersionAction sets correct meta key and package name', function
 });
 
 test('GetViteVersionAction sets correct meta key and package name', function () {
-    $action = new \Concept7\LaravelKite\Actions\GetViteVersionAction;
+    $action = new GetViteVersionAction;
     $result = $action->handle(new Collection, fn ($data) => $data);
 
     expect($result)->toHaveCount(0);
