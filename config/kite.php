@@ -1,11 +1,6 @@
 <?php
 
-use Concept7\LaravelKite\Actions\GetFilamentVersionAction;
 use Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction;
-use Concept7\LaravelKite\Actions\GetLaravelVersionAction;
-use Concept7\LaravelKite\Actions\GetLivewireVersionAction;
-use Concept7\LaravelKite\Actions\GetStatamicVersionAction;
-use Concept7\LaravelKite\Actions\GetViteVersionAction;
 
 return [
     'token' => env('KITE_TOKEN'),
@@ -13,12 +8,20 @@ return [
     // Optional: override the Kite API base URL (for development)
     'uri' => env('KITE_URI'),
 
+    // Packages to send. null = send all discovered packages; array = send only these.
+    'packages' => null,
+
+    // Packages to monitor for EOL alerts. Must be explicitly defined.
+    'monitored_packages' => [
+        'laravel/framework',
+        'statamic/cms',
+        'filament/filament',
+        'filament/support',
+        'livewire/livewire',
+        'vite',
+    ],
+
     'actions' => [
         GetLaravelKiteVersionAction::class,
-        GetLaravelVersionAction::class,
-        GetStatamicVersionAction::class,
-        GetLivewireVersionAction::class,
-        GetFilamentVersionAction::class,
-        GetViteVersionAction::class,
     ],
 ];
