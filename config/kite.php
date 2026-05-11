@@ -16,6 +16,7 @@ return [
         'filament/support',
         'livewire/livewire',
         'vite',
+        'concept7/laravel-kite',
     ],
 
     'actions' => [
