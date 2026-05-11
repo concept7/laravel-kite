@@ -17,7 +17,6 @@ class ReportJob implements ShouldQueue
         $config = new KiteConfig(
             token: config('kite.token'),
             uri: config('kite.uri'),
-            monitoredPackages: config('kite.monitored_packages', []),
         );
 
         if (! $config->isValid()) {
