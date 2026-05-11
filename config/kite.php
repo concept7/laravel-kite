@@ -1,7 +1,5 @@
 <?php
 
-use Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction;
-
 return [
     'token' => env('KITE_TOKEN'),
 
@@ -19,7 +17,5 @@ return [
         'concept7/laravel-kite',
     ],
 
-    'actions' => [
-        GetLaravelKiteVersionAction::class,
-    ],
+    'actions' => [],
 ];
