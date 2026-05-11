@@ -26,30 +26,12 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
             'php_version' => phpversion(),
             'url' => config('app.url'),
             'packages' => $packages,
-            'monitored_packages' => $this->resolveMonitoredPackages($packages),
+            'monitored_packages' => $this->resolveMonitoredPackages(),
         ];
     }
 
-    /** @param array<array{name: string, version: string, ecosystem: mixed}> $packages */
-    private function resolveMonitoredPackages(array $packages): array
+    private function resolveMonitoredPackages(): array
     {
-        $monitoredPackages = config('kite.monitored_packages', []);
-
-        if (blank($monitoredPackages)) {
-            return [];
-        }
-
-        $packagesByName = array_column($packages, null, 'name');
-
-        return array_values(array_filter(array_map(
-            fn (string $name): ?array => isset($packagesByName[$name])
-                ? [
-                    'name' => $name,
-                    'version' => $packagesByName[$name]['version'],
-                    'ecosystem' => $packagesByName[$name]['ecosystem'] ?? 'composer',
-                ]
-                : null,
-            $monitoredPackages,
-        )));
+        return config('kite.monitored_packages', []);
     }
 }
