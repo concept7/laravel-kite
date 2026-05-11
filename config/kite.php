@@ -10,7 +10,6 @@ return [
     'monitored_packages' => [
         'laravel/framework',
         'statamic/cms',
-        'filament/filament',
         'filament/support',
         'livewire/livewire',
         'tailwindcss',
