@@ -8,9 +8,6 @@ return [
     // Optional: override the Kite API base URL (for development)
     'uri' => env('KITE_URI'),
 
-    // Packages to send. null = send all discovered packages; array = send only these.
-    'packages' => null,
-
     // Packages to monitor for EOL alerts. Must be explicitly defined.
     'monitored_packages' => [
         'laravel/framework',

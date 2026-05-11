@@ -18,7 +18,6 @@ class LaravelKiteReportCommand extends Command
         $config = new KiteConfig(
             token: config('kite.token'),
             uri: config('kite.uri'),
-            packages: config('kite.packages'),
             monitoredPackages: config('kite.monitored_packages', []),
         );
 
