@@ -27,7 +27,7 @@ class LaravelKiteReportCommand extends Command
             return self::FAILURE;
         }
 
-        $actions = array_map(fn ($action) => new $action, config('kite.actions', []));
+        $actions = array_map(fn (string $action): object => new $action, config('kite.actions', []));
 
         $collector = new LaravelProjectInfoCollector;
         $projectInfo = $collector->collect();
