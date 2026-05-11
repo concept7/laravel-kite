@@ -13,6 +13,7 @@ return [
         'filament/filament',
         'filament/support',
         'livewire/livewire',
+        'tailwindcss',
         'vite',
         'concept7/laravel-kite',
     ],
