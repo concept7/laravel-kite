@@ -13,7 +13,7 @@ class LaravelKiteReportCommand extends Command
 
     public function handle(): int
     {
-        ReportJob::dispatch();
+        dispatch(new ReportJob);
 
         $this->info('Report dispatched.');
 

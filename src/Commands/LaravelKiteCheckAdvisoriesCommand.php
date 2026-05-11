@@ -13,7 +13,7 @@ class LaravelKiteCheckAdvisoriesCommand extends Command
 
     public function handle(): int
     {
-        CheckAdvisoriesJob::dispatch();
+        dispatch(new CheckAdvisoriesJob);
 
         $this->info('Advisory check dispatched.');
 
