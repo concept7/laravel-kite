@@ -6,16 +6,5 @@ return [
     // Optional: override the Kite API base URL (for development)
     'uri' => env('KITE_URI'),
 
-    // Packages to monitor for EOL alerts. Must be explicitly defined.
-    'monitored_packages' => [
-        'laravel/framework',
-        'statamic/cms',
-        'filament/support',
-        'livewire/livewire',
-        'tailwindcss',
-        'vite',
-        'concept7/laravel-kite',
-    ],
-
     'actions' => [],
 ];

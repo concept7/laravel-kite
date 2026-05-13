@@ -26,12 +26,6 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
             'php_version' => phpversion(),
             'url' => config('app.url'),
             'packages' => $packages,
-            'monitored_packages' => $this->resolveMonitoredPackages(),
         ];
-    }
-
-    private function resolveMonitoredPackages(): array
-    {
-        return config('kite.monitored_packages', []);
     }
 }
