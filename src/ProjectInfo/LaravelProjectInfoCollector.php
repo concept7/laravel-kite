@@ -12,20 +12,16 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
     {
         $app = app();
 
-        $packages = array_merge(
-            ComposerDependencies::all(),
-            NpmDependencies::installed(),
-        );
-
         return [
             'hostname' => gethostname(),
             'is_debug_mode_on' => $app->hasDebugModeEnabled(),
             'environment' => $app->environment(),
-            'laravel_version' => $app->version(),
             'is_maintenance_mode_on' => $app->isDownForMaintenance(),
-            'php_version' => phpversion(),
             'url' => config('app.url'),
-            'packages' => $packages,
+            'packages' => array_merge(
+                ComposerDependencies::all(),
+                NpmDependencies::installed(),
+            ),
         ];
     }
 }
