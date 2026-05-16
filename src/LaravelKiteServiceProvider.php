@@ -2,6 +2,7 @@
 
 namespace Concept7\LaravelKite;
 
+use Concept7\LaravelKite\Commands\LaravelKiteCheckAdvisoriesCommand;
 use Concept7\LaravelKite\Commands\LaravelKiteReportCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Spatie\LaravelPackageTools\Package;
@@ -19,7 +20,10 @@ class LaravelKiteServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-kite')
             ->hasConfigFile()
-            ->hasCommand(LaravelKiteReportCommand::class);
+            ->hasCommands([
+                LaravelKiteReportCommand::class,
+                LaravelKiteCheckAdvisoriesCommand::class,
+            ]);
     }
 
     public function packageBooted()
@@ -27,5 +31,6 @@ class LaravelKiteServiceProvider extends PackageServiceProvider
         $schedule = $this->app->make(Schedule::class);
 
         $schedule->command(LaravelKiteReportCommand::class)->daily();
+        $schedule->command(LaravelKiteCheckAdvisoriesCommand::class)->hourly();
     }
 }

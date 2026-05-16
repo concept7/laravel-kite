@@ -16,9 +16,7 @@ class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
             'hostname' => gethostname(),
             'is_debug_mode_on' => $app->hasDebugModeEnabled(),
             'environment' => $app->environment(),
-            'laravel_version' => $app->version(),
             'is_maintenance_mode_on' => $app->isDownForMaintenance(),
-            'php_version' => phpversion(),
             'url' => config('app.url'),
             'packages' => array_merge(
                 ComposerDependencies::all(),
