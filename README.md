@@ -46,14 +46,7 @@ return [
     // Optional: override the Kite API base URL (for development)
     'uri' => env('KITE_URI'),
 
-    'actions' => [
-        \Concept7\LaravelKite\Actions\GetLaravelKiteVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetStatamicVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetFilamentVersionAction::class,
-        \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
-    ],
+    'actions' => [],
 ];
 ```
 
@@ -85,25 +78,12 @@ The report includes two parts:
 | `environment` | App environment (`production`, `staging`, etc.) |
 | `is_debug_mode_on` | Whether debug mode is enabled |
 | `is_maintenance_mode_on` | Whether maintenance mode is active |
-| `laravel_version` | Laravel framework version |
-| `php_version` | PHP version |
 | `url` | Application URL |
 | `packages` | Installed Composer and npm packages |
 
 ## Actions
 
-### Included actions
-
-| Action | Meta key | Description |
-|---|---|---|
-| `GetLaravelKiteVersionAction` | `laravel_kite_version` | Laravel Kite package version |
-| `GetLaravelVersionAction` | `laravel_version` | Laravel framework version |
-| `GetStatamicVersionAction` | `statamic_version` | Statamic CMS version |
-| `GetLivewireVersionAction` | `livewire_version` | Livewire version |
-| `GetFilamentVersionAction` | `filament_version` | Filament version |
-| `GetViteVersionAction` | `vite_version` | Vite version (from `package-lock.json`) |
-
-Actions for packages that aren't installed are automatically skipped.
+The core SDK (`concept7/kite-php-sdk`) runs default actions for PHP version, MySQL/MariaDB version, Tailwind CSS, and Vite. The `actions` array in `config/kite.php` adds extra actions on top of those defaults.
 
 ### Adding a custom action
 
@@ -111,8 +91,6 @@ Add the action class to the `actions` array in `config/kite.php`:
 
 ```php
 'actions' => [
-    \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
-    \Concept7\LaravelKite\Actions\GetViteVersionAction::class,
     \App\Kite\GetCustomMetaAction::class,
 ],
 ```
@@ -166,16 +144,6 @@ class GetAlpineVersionAction extends GetNodePackageVersionAction
 }
 ```
 
-### Removing actions
-
-Remove any actions you don't need from the `actions` array. For example, if your project doesn't use Statamic or Filament:
-
-```php
-'actions' => [
-    \Concept7\LaravelKite\Actions\GetLaravelVersionAction::class,
-    \Concept7\LaravelKite\Actions\GetLivewireVersionAction::class,
-],
-```
 
 ## Testing
 

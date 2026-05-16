@@ -23,7 +23,10 @@ class ReportJob implements ShouldQueue
             return;
         }
 
-        $actions = array_map(fn (string $action): object => new $action, config('kite.actions', []));
+        $actions = array_map(
+            fn (string $action): object => new $action,
+            config('kite.actions', []),
+        );
 
         Kite::make($config)
             ->projectInfoCollector(new LaravelProjectInfoCollector)
