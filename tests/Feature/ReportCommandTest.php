@@ -1,9 +1,7 @@
 <?php
 
 test('command fails when credentials are missing', function () {
-    config()->set('kite.uri', '');
-    config()->set('kite.project_id', '');
-    config()->set('kite.project_key', '');
+    config()->set('kite.token', '');
 
     $this->artisan('kite:report')
         ->expectsOutputToContain('Project credentials are missing!')
@@ -11,9 +9,7 @@ test('command fails when credentials are missing', function () {
 });
 
 test('command fails silently when credentials are missing and quiet', function () {
-    config()->set('kite.uri', '');
-    config()->set('kite.project_id', '');
-    config()->set('kite.project_key', '');
+    config()->set('kite.token', '');
 
     $this->artisan('kite:report --quiet')
         ->assertExitCode(1);
