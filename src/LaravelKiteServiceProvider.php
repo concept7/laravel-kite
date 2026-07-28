@@ -30,7 +30,10 @@ class LaravelKiteServiceProvider extends PackageServiceProvider
     {
         $schedule = $this->app->make(Schedule::class);
 
-        $schedule->command(LaravelKiteReportCommand::class)->daily();
+        // kite:report is triggered by the deploy pipeline (artisan:kite:report task),
+        // which is the actual moment package/version data changes. A daily cron on
+        // top of that is redundant and can race kite:check-advisories below, since
+        // both independently scan and submit advisories for the same project.
         $schedule->command(LaravelKiteCheckAdvisoriesCommand::class)->hourly();
     }
 }
