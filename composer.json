@@ -54,6 +54,12 @@
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
         "lint": "vendor/bin/pint --parallel",
         "lint:check": "vendor/bin/pint --parallel --test",
         "analyse": "vendor/bin/phpstan analyse",
