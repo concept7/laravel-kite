@@ -6,7 +6,7 @@ use Concept7\LaravelKite\LaravelKite as LaravelKiteInstance;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Concept7\LaravelKite\LaravelKite
+ * @see LaravelKiteInstance
  */
 class LaravelKite extends Facade
 {
