@@ -2,6 +2,7 @@
 
 namespace Concept7\LaravelKite\Facades;
 
+use Concept7\LaravelKite\LaravelKite as LaravelKiteInstance;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -11,6 +12,6 @@ class LaravelKite extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Concept7\LaravelKite\LaravelKite::class;
+        return LaravelKiteInstance::class;
     }
 }
