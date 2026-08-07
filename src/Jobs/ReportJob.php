@@ -17,7 +17,7 @@ class ReportJob implements ShouldQueue
      * When the last report actually ran, so CheckAdvisoriesJob can skip a
      * scan that would otherwise race the advisories this report just sent.
      */
-    public const LAST_RAN_AT_CACHE_KEY = 'kite:report:last-ran-at';
+    public const string LAST_RAN_AT_CACHE_KEY = 'kite:report:last-ran-at';
 
     public function handle(): void
     {

@@ -15,10 +15,13 @@ This is part of a three-project ecosystem in the `Monitor/` directory:
 ## Commands
 
 ```bash
-composer test              # Run tests (Pest v4)
-composer test -- --filter=TestName  # Run a single test
-composer format            # Format code (Laravel Pint)
-composer analyse           # Static analysis (PHPStan)
+composer test               # Full gate: analyse + lint:check + test:types + test:unit
+composer test:unit           # Run tests (Pest v4)
+composer test:unit -- --filter=TestName  # Run a single test
+composer test:types          # Type coverage check (Pest, 100% minimum)
+composer lint                # Format code (Laravel Pint)
+composer lint:check          # Check formatting without modifying (Laravel Pint)
+composer analyse             # Static analysis (PHPStan/Larastan)
 ```
 
 ## Architecture
@@ -63,6 +66,6 @@ composer analyse           # Static analysis (PHPStan)
 ## Conventions
 
 - PHP 8.2+ with readonly properties and named arguments
-- Supports Laravel 10, 11, 12, and 13
+- Supports Laravel 12 and 13 (Laravel 11 dropped: past its security-fix window, every tagged release is Composer advisory-blocked)
 - Missing packages/tools are silently skipped (no exceptions)
 - Namespace: `Concept7\LaravelKite` (this package), `Concept7\Kite` (core package)
