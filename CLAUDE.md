@@ -15,10 +15,13 @@ This is part of a three-project ecosystem in the `Monitor/` directory:
 ## Commands
 
 ```bash
-composer test              # Run tests (Pest v4)
-composer test -- --filter=TestName  # Run a single test
-composer format            # Format code (Laravel Pint)
-composer analyse           # Static analysis (PHPStan)
+composer test               # Full gate: analyse + lint:check + test:types + test:unit
+composer test:unit           # Run tests (Pest v4)
+composer test:unit -- --filter=TestName  # Run a single test
+composer test:types          # Type coverage check (Pest, 100% minimum)
+composer lint                # Format code (Laravel Pint)
+composer lint:check          # Check formatting without modifying (Laravel Pint)
+composer analyse             # Static analysis (PHPStan/Larastan)
 ```
 
 ## Architecture
