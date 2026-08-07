@@ -1,6 +1,7 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
     "name": "concept7/laravel-kite",
-    "description": "This is my package laravel-kite",
+    "description": "Laravel integration for Kite monitoring, reporting project metadata to the Kite API on a schedule.",
     "keywords": [
         "Concept7",
         "laravel",
@@ -27,12 +28,14 @@
         "illuminate/contracts": "^11.0||^12.0||^13.0"
     },
     "require-dev": {
+        "larastan/larastan": "^3.10",
         "laravel/pint": "^1.30.4",
         "nunomaduro/collision": "^8.9.5",
         "orchestra/testbench": "^9.0.0||^10.0.0||^11.1.0",
         "pestphp/pest": "^4.7.8",
         "pestphp/pest-plugin-arch": "^4.0.2",
-        "pestphp/pest-plugin-laravel": "^4.1"
+        "pestphp/pest-plugin-laravel": "^4.1",
+        "phpstan/extension-installer": "^1.4"
     },
     "autoload": {
         "psr-4": {
@@ -71,6 +74,6 @@
             }
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

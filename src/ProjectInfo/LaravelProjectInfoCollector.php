@@ -8,6 +8,9 @@ use Concept7\Kite\Support\NpmDependencies;
 
 class LaravelProjectInfoCollector implements ProjectInfoCollectorInterface
 {
+    /**
+     * @return array<string, string|bool|array<string, string>>
+     */
     public function collect(): array
     {
         $app = app();
