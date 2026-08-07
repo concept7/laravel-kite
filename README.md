@@ -26,7 +26,7 @@ composer require concept7/laravel-kite
 Publish the config file:
 
 ```bash
-php artisan vendor:publish --tag="laravel-kite-config"
+php artisan vendor:publish --tag="kite-config"
 ```
 
 Add the `KITE_TOKEN` to your `.env` file (generated from the [Kite Dashboard](https://kite-monitor.concept7.dev/)):
