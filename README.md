@@ -1,23 +1,8 @@
 # Laravel Kite
 
-Laravel integration for [Kite](https://gitlab.concept7.nl/workflow/kite) monitoring. Reports project metadata (PHP, Node, database versions, installed Composer/npm packages) to the Kite API, and scans those packages for security advisories.
+Laravel integration for [Kite](https://kite-monitor.com) monitoring. Reports project metadata (PHP, Node, database versions, installed Composer/npm packages) to the Kite API, and scans those packages for security advisories.
 
 ## Installation
-
-Add the Concept7 Composer repository to your project:
-
-```json
-{
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.concept7.dev"
-        }
-    ]
-}
-```
-
-Install the package:
 
 ```bash
 composer require concept7/laravel-kite
