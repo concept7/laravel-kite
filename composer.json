@@ -7,7 +7,7 @@
         "laravel",
         "laravel-kite"
     ],
-    "homepage": "https://gitlab.concept7.nl/workflow/laravel-kite",
+    "homepage": "https://github.com/concept7/laravel-kite",
     "license": "MIT",
     "authors": [
         {
@@ -16,12 +16,10 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.concept7.dev"
-        }
-    ],
+    "support": {
+        "issues": "https://github.com/concept7/laravel-kite/issues",
+        "source": "https://github.com/concept7/laravel-kite"
+    },
     "require": {
         "php": "^8.3",
         "concept7/kite-php-sdk": "^0.1.4",
