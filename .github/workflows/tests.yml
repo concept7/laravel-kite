@@ -2,7 +2,7 @@ name: tests
 
 on:
   push:
-    branches: [1.x, develop]
+    branches: [2.x, develop]
     tags: ['v*']
   pull_request:
 
