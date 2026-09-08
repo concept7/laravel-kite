@@ -1,5 +1,8 @@
 # Laravel Kite
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/concept7/laravel-kite.svg?style=flat-square)](https://packagist.org/packages/concept7/laravel-kite)
+[![Total Downloads](https://img.shields.io/packagist/dt/concept7/laravel-kite.svg?style=flat-square)](https://packagist.org/packages/concept7/laravel-kite)
+
 Laravel integration for [Kite](https://kite-monitor.com) monitoring. Reports project metadata (PHP, Node, database versions, installed Composer/npm packages) to the Kite API, and scans those packages for security advisories.
 
 ## Installation
